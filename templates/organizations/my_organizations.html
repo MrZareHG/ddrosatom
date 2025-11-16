@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои организации - Добрые дела Росатома{% endblock %}
+
+{% block content %}
+<h2>Мои организации</h2>
+
+<div class="card">
+    <h3>Организации, которыми я управляю</h3>
+    {% if owned_nkos %}
+    <div class="nko-grid">
+        {% for nko in owned_nkos %}
+        <div class="nko-card">
+            <div class="nko-cover" style="background: {% if nko.status == 'approved' %}#27ae60{% elif nko.status == 'pending' %}#f39c12{% else %}#e74c3c{% endif %};">
+                {{ nko.name|first }}
+            </div>
+            <div class="nko-content">
+                <span class="nko-category" style="background: {% if nko.status == 'approved' %}#27ae60{% elif nko.status == 'pending' %}#f39c12{% else %}#e74c3c{% endif %};">
+                    {{ nko.get_status_display }}
+                </span>
+                <h3><a href="{% url 'organizations:nko_detail' nko.pk %}">{{ nko.name }}</a></h3>
+                <p style="color: #666; font-size: 0.9rem;">{{ nko.city }}</p>
+                <div style="margin-top: 1rem;">
+                    <a href="{% url 'organizations:nko_edit' nko.pk %}" class="btn btn-primary">Редактировать</a>
+                    <a href="{% url 'organizations:nko_detail' nko.pk %}" class="btn btn-primary">Просмотр</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; color: #666; margin: 2rem 0;">
+        У вас пока нет созданных организаций.
+        <a href="{% url 'organizations:nko_create' %}" class="btn btn-success" style="margin-top: 1rem; display: inline-block;">Создать первую организацию</a>
+    </p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>Организации, в которых я участвую</h3>
+    {% if memberships %}
+    <div class="nko-grid">
+        {% for membership in memberships %}
+        <div class="nko-card">
+            <div class="nko-cover">
+                {{ membership.nko.name|first }}
+            </div>
+            <div class="nko-content">
+                <span class="nko-category" style="background: {% if membership.status == 'approved' %}#27ae60{% else %}#f39c12{% endif %};">
+                    {{ membership.get_status_display }}
+                </span>
+                <h3><a href="{% url 'organizations:nko_detail' membership.nko.pk %}">{{ membership.nko.name }}</a></h3>
+                <p style="color: #666; font-size: 0.9rem;">{{ membership.nko.city }}</p>
+                <p style="color: #666; font-size: 0.8rem; margin: 0.5rem 0;">Роль: {{ membership.get_role_display }}</p>
+                <a href="{% url 'organizations:nko_detail' membership.nko.pk %}" class="btn btn-primary">Перейти</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; color: #666; margin: 2rem 0;">Вы пока не участвуете в организациях</p>
+    {% endif %}
+</div>
+{% endblock %}

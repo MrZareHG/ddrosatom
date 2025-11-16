@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Подтверждение email - Добрые дела Росатома{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Подтверждение email</h2>
+    <p>Мы отправили 6-значный код на ваш email: <strong>{{ user.email }}</strong></p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="code">Код подтверждения:</label>
+            <input type="text" id="code" name="code" class="form-control" 
+                   maxlength="6" pattern="[0-9]{6}" required
+                   placeholder="Введите 6 цифр">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Подтвердить</button>
+    </form>
+    
+    <div style="margin-top: 1rem; text-align: center;">
+        <p>Не получили код? <a href="{% url 'accounts:resend_verification' %}">Отправить повторно</a></p>
+    </div>
+</div>
+{% endblock %}

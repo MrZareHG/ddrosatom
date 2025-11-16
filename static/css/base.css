@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Rosatom', Arial, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #C3E3FF;
+}
+
+/* Шапка сайта */
+.main-header {
+    max-width: 1158px;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 15px;
+    margin-top: 50px;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #003274;
+    color: white;
+    border-radius: 14px;
+    padding: 20px 30px;
+}
+
+.nav-list,
+.user-nav,
+.nav-wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Main */
+
+.main {
+    max-width: 1158px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+/* Подвал сайта */
+.main-footer {
+    width: 100%;
+    background-color: #003274;
+    padding: 60px 0;
+    color: white;
+}
+
+.footer-wrap {
+    max-width: 1158px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.footer-nav {
+    display: flex;
+    gap: 120px;
+}
+
+.footer-nav-header {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.main-footer .divider {
+    border: none;
+    height: 1.85px;
+    background-color: white;
+    width: 100%;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+}

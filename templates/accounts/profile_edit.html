@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование профиля - Добрые дела Росатома{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Редактирование профиля</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+            <!-- Боковая панель с навигацией -->
+            <div>
+                <div class="card" style="position: sticky; top: 2rem;">
+                    <h4>Навигация</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#basic-info" style="text-decoration: none; color: #3498db;">
+                                📝 Основная информация
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#contact-info" style="text-decoration: none; color: #3498db;">
+                                📞 Контакты
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#profile-details" style="text-decoration: none; color: #3498db;">
+                                👤 Детали профиля
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#volunteer-info" style="text-decoration: none; color: #3498db;">
+                                🤝 Волонтерская информация
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#social-links" style="text-decoration: none; color: #3498db;">
+                                🔗 Социальные сети
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <h4>Быстрые действия</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a href="{% url 'accounts:password_change' %}" class="btn btn-primary">
+                            🔒 Сменить пароль
+                        </a>
+                        <a href="{% url 'accounts:profile' %}" class="btn btn-primary">
+                            👁️ Просмотр профиля
+                        </a>
+                        {% if not user.email_verified %}
+                        <a href="{% url 'accounts:email_verification' %}" class="btn btn-success">
+                            ✓ Подтвердить email
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основная форма -->
+            <div>
+                <!-- Основная информация -->
+                <div class="card" id="basic-info">
+                    <h3>📝 Основная информация</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="first_name">Имя *</label>
+                            <input type="text" id="first_name" name="first_name"
+                                   class="form-control" value="{{ user_form.first_name.value|default:'' }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last_name">Фамилия *</label>
+                            <input type="text" id="last_name" name="last_name"
+                                   class="form-control" value="{{ user_form.last_name.value|default:'' }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Имя пользователя *</label>
+                        <input type="text" id="username" name="username"
+                               class="form-control" value="{{ user_form.username.value|default:'' }}" required>
+                        <small>Это имя будет отображаться другим пользователям</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email"
+                               class="form-control" value="{{ user_form.email.value|default:'' }}" required>
+                        <div style="margin-top: 0.25rem;">
+                            {% if user.email_verified %}
+                            <span style="color: green;">✓ Email подтвержден</span>
+                            {% else %}
+                            <span style="color: orange;">⚠ Email не подтвержден</span>
+                            <a href="{% url 'accounts:email_verification' %}" style="margin-left: 0.5rem;">Подтвердить</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контактная информация -->
+                <div class="card" id="contact-info" style="margin-top: 1.5rem;">
+                    <h3>📞 Контактная информация</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" name="phone"
+                                   class="form-control" value="{{ user_form.phone.value|default:'' }}"
+                                   placeholder="+7 (XXX) XXX-XX-XX">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city">Город</label>
+                            <input type="text" id="city" name="city"
+                                   class="form-control" value="{{ user_form.city.value|default:'' }}"
+                                   placeholder="В каком городе вы находитесь?">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Детали профиля -->
+                <div class="card" id="profile-details" style="margin-top: 1.5rem;">
+                    <h3>👤 Детали профиля</h3>
+
+                    <div class="form-group">
+                        <label for="avatar">Аватар</label>
+                        <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*">
+                        {% if user.avatar %}
+                        <div style="margin-top: 0.5rem;">
+                            <img src="{{ user.avatar.url }}" alt="Текущий аватар"
+                                 style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                            <br>
+                            <small>Текущее изображение</small>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio">О себе</label>
+                        <textarea id="bio" name="bio" class="form-control" rows="4"
+                                  placeholder="Расскажите о себе, своих интересах и опыте...">{{ user_form.bio.value|default:'' }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Волонтерская информация -->
+                <div class="card" id="volunteer-info" style="margin-top: 1.5rem;">
+                    <h3>🤝 Волонтерская информация</h3>
+
+                    <div class="form-group">
+                        <label for="skills">Навыки и умения</label>
+                        <input type="text" id="skills" name="skills"
+                               class="form-control" value="{{ user_form.skills.value|default:'' }}"
+                               placeholder="Программирование, преподавание, медицина, строительство...">
+                        <small>Перечислите через запятую</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interests">Интересы</label>
+                        <input type="text" id="interests" name="interests"
+                               class="form-control" value="{{ user_form.interests.value|default:'' }}"
+                               placeholder="Экология, помощь животным, работа с детьми...">
+                        <small>Какие направления волонтерства вам интересны?</small>
+                    </div>
+                </div>
+
+                <!-- Социальные сети и дополнительная информация -->
+                <div class="card" id="social-links" style="margin-top: 1.5rem;">
+                    <h3>🔗 Социальные сети и дополнительная информация</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="vk_link">Ссылка на VK</label>
+                            <input type="url" id="vk_link" name="vk_link"
+                                   class="form-control" value="{{ profile_form.vk_link.value|default:'' }}"
+                                   placeholder="https://vk.com/username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telegram_link">Ссылка на Telegram</label>
+                            <input type="url" id="telegram_link" name="telegram_link"
+                                   class="form-control" value="{{ profile_form.telegram_link.value|default:'' }}"
+                                   placeholder="https://t.me/username">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="occupation">Род занятий</label>
+                            <input type="text" id="occupation" name="occupation"
+                                   class="form-control" value="{{ profile_form.occupation.value|default:'' }}"
+                                   placeholder="Программист, учитель, врач...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="organization">Организация</label>
+                            <input type="text" id="organization" name="organization"
+                                   class="form-control" value="{{ profile_form.organization.value|default:'' }}"
+                                   placeholder="Где вы работаете/учитесь?">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birth_date">Дата рождения</label>
+                        <input type="date" id="birth_date" name="birth_date"
+                               class="form-control" value="{{ profile_form.birth_date.value|default:'' }}">
+                    </div>
+                </div>
+
+                <!-- Волонтерская доступность -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h3>📅 Доступность для волонтерства</h3>
+
+                    <div class="form-group">
+                        <label for="available_weekdays">Доступные дни</label>
+                        <select id="available_weekdays" name="available_weekdays" class="form-control" multiple
+                                style="height: 100px;">
+                            <option value="monday" {% if "monday" in profile_form.available_weekdays.value %}selected{% endif %}>Понедельник</option>
+                            <option value="tuesday" {% if "tuesday" in profile_form.available_weekdays.value %}selected{% endif %}>Вторник</option>
+                            <option value="wednesday" {% if "wednesday" in profile_form.available_weekdays.value %}selected{% endif %}>Среда</option>
+                            <option value="thursday" {% if "thursday" in profile_form.available_weekdays.value %}selected{% endif %}>Четверг</option>
+                            <option value="friday" {% if "friday" in profile_form.available_weekdays.value %}selected{% endif %}>Пятница</option>
+                            <option value="saturday" {% if "saturday" in profile_form.available_weekdays.value %}selected{% endif %}>Суббота</option>
+                            <option value="sunday" {% if "sunday" in profile_form.available_weekdays.value %}selected{% endif %}>Воскресенье</option>
+                        </select>
+                        <small>Удерживайте Ctrl для выбора нескольких дней</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="has_car" value="true"
+                                   {% if profile_form.has_car.value %}checked{% endif %}>
+                            У меня есть автомобиль
+                        </label>
+                        <small style="display: block; margin-top: 0.25rem;">
+                            Это может быть полезно для мероприятий, требующих перевозки
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="volunteer_experience">Опыт волонтерства</label>
+                        <textarea id="volunteer_experience" name="volunteer_experience"
+                                  class="form-control" rows="3"
+                                  placeholder="Расскажите о вашем предыдущем опыте волонтерства...">{{ profile_form.volunteer_experience.value|default:'' }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Настройки уведомлений -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h3>🔔 Настройки уведомлений</h3>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="email_notifications" value="true"
+                                   {% if user.email_notifications %}checked{% endif %}>
+                            Получать email уведомления
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="newsletter_subscription" value="true"
+                                   {% if user.newsletter_subscription %}checked{% endif %}>
+                            Подписаться на рассылку новостей
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Кнопки отправки -->
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                    <a href="{% url 'accounts:profile' %}" class="btn btn-primary">Отмена</a>
+                    <button type="submit" class="btn btn-success">Сохранить изменения</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+/* Стили для улучшения UX */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.card {
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="date"],
+select,
+textarea {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Стили для навигации */
+#basic-info:target,
+#contact-info:target,
+#profile-details:target,
+#volunteer-info:target,
+#social-links:target {
+    background: linear-gradient(90deg, rgba(52, 152, 219, 0.1) 0%, transparent 100%);
+    border-left: 4px solid #3498db;
+    padding-left: 1rem;
+    margin-left: -1rem;
+}
+</style>
+
+<script>
+// Плавная прокрутка к якорям
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Подсказка для множественного выбора
+document.addEventListener('DOMContentLoaded', function() {
+    const availableDays = document.getElementById('available_weekdays');
+    if (availableDays) {
+        availableDays.title = "Удерживайте Ctrl (Cmd на Mac) для выбора нескольких дней";
+    }
+});
+</script>
+{% endblock %}

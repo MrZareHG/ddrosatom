@@ -1,0 +1,248 @@
+/* Home page */
+/* General */
+.section-header {
+    color: #003274;
+    font-size: 32px;
+}
+/* city choose */
+
+.home-city-choose {
+    margin-top: 60px;
+    margin-bottom: 80px;
+    width: 100%;
+    border-radius: 16px;
+    padding: 55px 45px;
+    background-color: white;
+    box-sizing: border-box;
+    color: #003274;
+}
+
+.home-city-choose .section-header {
+    font-size: 40px;
+    margin-bottom: 25px;
+}
+
+.home-city-choose>p {
+    font-size: 20px;
+    margin-bottom: 50px;
+}
+
+.home-city-choose>h3 {
+    font-size: 24px;
+}
+
+.home-city-choose>select {
+    width: 250px;
+    background-color: #025EA1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    margin: 15px 0;
+}
+
+.city-card {
+    background-color: #8C8888;
+    background-image: url('../img/bg3.jpg');
+    background-size: cover;
+    height: 360px;
+    border-radius: 6px;
+    padding: 25px;
+    padding-right: 45px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.city-card>h4 {
+    font-size: 24px;
+    color: white;
+}
+
+.city-card>.button {
+    width: 220px;
+    font-size: 16px;
+    padding: 15px 30px;
+    box-sizing: border-box;
+    align-self: end;
+    border-radius: 30px;
+    background-color: #025ea1;
+    color: white;
+    border: none;
+}
+
+
+/* Here you can */
+
+.here-you-can .section-header {
+    margin-bottom: 45px;
+}
+
+.here-you-can-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.here-you-can-el {
+    overflow: hidden;
+    position: relative;
+    max-width: 280px;
+    padding: 60px 20px 45px 20px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    color: #003274
+}
+
+.here-you-can-el:nth-child(even) {
+    background-color: #025ea1;
+    color: white;
+}
+
+.here-you-can-el .icon {
+    align-self: end;
+    margin-right: 15px;
+}
+
+.here-you-can-el:nth-child(3) .icon {
+    width: 101px;
+    margin-bottom: 15px;
+}
+
+.here-you-can-el .divider {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 0.85px;
+    margin-bottom: 30px;
+}
+
+/* additional info */
+.additional-info {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.additional-info .section-header {
+    margin-bottom: 45px;
+}
+
+.additional-info-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.additional-info-el {
+    background-color: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    color: #003274;
+    background-size: cover;
+}
+
+.additional-info-el:nth-child(1),
+.additional-info-el:nth-child(4) {
+    width: 52%;
+    background-image: url('../img/card1.jpg');
+}
+
+.additional-info-el:nth-child(2),
+.additional-info-el:nth-child(3) {
+    width: 45%;
+    background-image: url('../img/card2.jpg');
+}
+
+.additional-info-el h3 {
+    margin-top: 140px;
+    color: #003274;
+    font-size: 24px;
+}
+
+.additional-info-el .divider {
+    background-color: #003274;
+    color: #003274;
+    border: none;
+    height: 0.85px;
+    margin: 26px 0;
+}
+
+.additional-info-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.additional-info-wrap p {
+    width: 80%;
+    font-size: 20px;
+}
+
+.additional-info-wrap .button {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background-color: #025ea1;
+    color: white;
+    border: none;
+    border-radius: 25px;
+}
+
+/* join us */
+.join-us .section-header {
+    margin-bottom: 45px;
+}
+
+.join-us-card {
+    margin-bottom: 110px;
+    border-radius: 16px;
+    background-color: white;
+    background-image: url('../img/card3.jpg');
+    background-size: cover;
+    padding: 30px 30px 30px 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.join-us-card h3 {
+    font-size: 24px;
+    color: #003274;
+    margin-bottom: 20px;
+}
+
+.join-us-card p {
+    font-size: 18px;
+    margin-bottom: 24px;
+    color: #003274;
+}
+
+
+.join-us .image-container {
+    display: block;
+    width: 540px;
+    height: 440px;
+    background-color: grey;
+    background-image: url('../img/bg1.png');
+    border-radius: 14px;
+}
+
+.join-us .image-container img {
+    width: 100%;
+}
+
+.join-us-wrap .button {
+    font-size: 15px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: #025ea1;
+    color: white;
+    border: none;
+    border-radius: 16px;
+}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}НКО - Добрые дела Росатома{% endblock %}
+
+{% block content %}
+<div class="filters">
+    <div class="filter-group">
+        <label for="city">Город:</label>
+        <select id="city" class="form-control" onchange="updateFilters()">
+            <option value="">Все города</option>
+            {% for city in cities %}
+            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>
+                {{ city }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="filter-group">
+        <label for="category">Категория:</label>
+        <select id="category" class="form-control" onchange="updateFilters()">
+            <option value="">Все категории</option>
+            {% for value, label in categories %}
+            <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+                {{ label }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="filter-group">
+        <label for="search">Поиск:</label>
+        <input type="text" id="search" class="form-control" 
+               placeholder="Название, описание..." 
+               value="{{ search_query|default:'' }}"
+               onkeyup="updateFilters()">
+    </div>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2>Некоммерческие организации</h2>
+    {% if user.is_authenticated and user.is_nko_representative %}
+    <a href="{% url 'organizations:nko_create' %}" class="btn btn-success">+ Создать НКО</a>
+    {% endif %}
+</div>
+
+{% if nkos %}
+<div class="nko-grid">
+    {% for nko in nkos %}
+    <div class="nko-card">
+        <div class="nko-cover">
+            {{ nko.name|first }}
+        </div>
+        <div class="nko-content">
+            <span class="nko-category">{{ nko.get_category_display }}</span>
+            <h3><a href="{% url 'organizations:nko_detail' nko.pk %}" style="text-decoration: none; color: inherit;">{{ nko.name }}</a></h3>
+            <p style="color: #666; font-size: 0.9rem; margin: 0.5rem 0;">{{ nko.city }}</p>
+            <p style="margin: 1rem 0;">{{ nko.description|truncatewords:20 }}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                <span style="color: #666; font-size: 0.8rem;">Участников: {{ nko.member_count }}</span>
+                <a href="{% url 'organizations:nko_detail' nko.pk %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Пагинация -->
+<div style="display: flex; justify-content: center; margin-top: 2rem;">
+    {% if nkos.has_previous %}
+    <a href="?page={{ nkos.previous_page_number }}{% if selected_city %}&city={{ selected_city }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="btn btn-primary">Назад</a>
+    {% endif %}
+    
+    <span style="margin: 0 1rem; align-self: center;">
+        Страница {{ nkos.number }} из {{ nkos.paginator.num_pages }}
+    </span>
+    
+    {% if nkos.has_next %}
+    <a href="?page={{ nkos.next_page_number }}{% if selected_city %}&city={{ selected_city }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="btn btn-primary">Вперед</a>
+    {% endif %}
+</div>
+
+{% else %}
+<div class="card">
+    <h3>Организации не найдены</h3>
+    <p>Попробуйте изменить параметры фильтрации или <a href="{% url 'organizations:nko_list' %}">сбросить фильтры</a>.</p>
+</div>
+{% endif %}
+
+<script>
+function updateFilters() {
+    const city = document.getElementById('city').value;
+    const category = document.getElementById('category').value;
+    const search = document.getElementById('search').value;
+    
+    let url = '{% url "organizations:nko_list" %}?';
+    const params = [];
+    
+    if (city) params.push(`city=${encodeURIComponent(city)}`);
+    if (category) params.push(`category=${encodeURIComponent(category)}`);
+    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    
+    window.location.href = url + params.join('&');
+}
+</script>
+{% endblock %}

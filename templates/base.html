@@ -1,0 +1,149 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Добрые дела Росатома{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <div class="logo-container">
+                <img src="{% static 'path to file' %}" alt="ДобрыеДелаРосатома">
+            </div>
+
+            <div class="nav-wrap">
+                <ul class="nav-list">
+                    <li class="nav-el">
+                        <a>Главная</a>
+                    </li>
+                    <li class="nav-el">
+                        <a>Список НКО</a>
+                    </li>
+                    <li class="nav-el">
+                        <a>База знаний</a>
+                    </li>
+                    <li class="nav-el">
+                        <a>Календарь событий</a>
+                    </li>
+                    <li class="nav-el">
+                        <a>Новости</a>
+                    </li>
+                </ul>
+                <ul class="user-nav">
+                    {% if user.is_authenticated %}
+                    <li class="user-nav-el">
+                        <a>Профиль</a>
+                    </li>
+                    <li class="user-nav-el">
+                        <a>Выйти</a>
+                    </li>
+                    {% else %}
+                    <li class="user-nav-el">
+                        <a>Войти</a>
+                    </li>
+                    <li class="user-nav-el">
+                        <a>Зарегистрироваться</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-wrap">
+            <ul class="footer-nav">
+                <li class="footer-logo">
+                    <img src="{% static 'path to file' %}" alt="ДобрыеДелаРосатома">
+                </li>
+                <li class="footer-nav-group">
+                    <ul class="footer-nav-links">
+                        <li class="footer-nav-header">
+                            Навигация
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>Главная</a>
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>Список НКО</a>
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>База знаний</a>
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>Календарь событий</a>
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>Новости</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="footer-nav-group">
+                    <ul class="footer-nav-social">
+                        <li class="footer-nav-header">
+                            Социальные сети
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>Telegram</a>
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>Вконтакте</a>
+                        </li>
+                        <li class="footer-nav-el">
+                            <a>Whatsapp</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="footer-nav-group">
+                    <ul class="footer-nav-contacts">
+                        <li class="footer-nav-header">
+                            Связаться с нами
+                        </li>
+                        <li class="footer-nav-el">
+                            +7 (999) 999-99-99
+                        </li>
+                        <li class="footer-nav-el">
+                            info@ddrosatom.ru
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <hr class="divider">
+            <ul class="footer-bottom">
+                <li class="company-name">
+                    ДобрыеДелаРосатома
+                </li>
+                <li class="policy">
+                    <a>Политика конфиденциальности</a>
+                </li>
+                <li class="copyrights">
+                    ДобрыеДелаРосатома 2025
+                </li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

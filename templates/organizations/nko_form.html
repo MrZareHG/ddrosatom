@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if action == 'create' %}Создание НКО{% else %}Редактирование НКО{% endif %} - Добрые дела Росатома{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>{% if action == 'create' %}Создание новой НКО{% else %}Редактирование НКО{% endif %}</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label for="name">Название НКО *</label>
+                <input type="text" id="name" name="name" class="form-control" 
+                       value="{{ form.name.value|default:'' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Категория *</label>
+                <select id="category" name="category" class="form-control" required>
+                    <option value="">Выберите категорию</option>
+                    {% for value, label in form.fields.category.choices %}
+                    <option value="{{ value }}" {% if form.category.value == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Описание деятельности *</label>
+            <textarea id="description" name="description" class="form-control" 
+                      rows="4" required>{{ form.description.value|default:'' }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="mission">Миссия организации</label>
+            <textarea id="mission" name="mission" class="form-control" 
+                      rows="3">{{ form.mission.value|default:'' }}</textarea>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" class="form-control" 
+                       value="{{ form.email.value|default:'' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" name="phone" class="form-control" 
+                       value="{{ form.phone.value|default:'' }}">
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label for="city">Город *</label>
+                <input type="text" id="city" name="city" class="form-control" 
+                       value="{{ form.city.value|default:'' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="website">Сайт</label>
+                <input type="url" id="website" name="website" class="form-control" 
+                       value="{{ form.website.value|default:'' }}" placeholder="https://...">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="address">Адрес</label>
+            <textarea id="address" name="address" class="form-control" 
+                      rows="2">{{ form.address.value|default:'' }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="tags">Теги</label>
+            <input type="text" id="tags" name="tags" class="form-control" 
+                   value="{{ form.tags.value|default:'' }}" 
+                   placeholder="волонтерство, экология, помощь...">
+            <small>Укажите ключевые слова через запятую</small>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-success">
+                {% if action == 'create' %}Создать НКО{% else %}Сохранить изменения{% endif %}
+            </button>
+            <a href="{% if action == 'create' %}{% url 'organizations:nko_list' %}{% else %}{% url 'organizations:nko_detail' nko.pk %}{% endif %}" 
+               class="btn btn-primary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

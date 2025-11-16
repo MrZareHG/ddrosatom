@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<section class="home-city-choose">
+    <h2 class="section-header">Добрые дела Росатома - все инициативы вашего города в одном месте</h2>
+    <p>Единый портал для жителей, волонтёров и НКО, где собрана вся информация о социальных, экологических, культурных,
+        образовательных и спортивных инициативах в городах присутствия Росатома.</p>
+    <h3>Выбери свой город и вперед к действиям!</h3>
+    <select name="city">
+        <option value="volgodonsk">Список городов</option>
+        <option value="volgodonsk">Волгодонск</option>
+        <option value="sarov">Саров</option>
+    </select>
+    <article class="city-card">
+        <h4>Ангарск, Иркутская область</h4>
+        <button class="button">к списку НКО</button>
+    </article>
+</section>
+
+<section class="here-you-can">
+    <h2 class="section-header">Здесь вы сможете:</h2>
+    <ul class="here-you-can-list">
+        <li class="here-you-can-el">
+            <img class="icon" src="{% static 'img/loupe.svg' %}">
+            <img class="divider" src="{% static 'img/divider_blue.svg' %}">
+            <p>Узнать, какие НКО и волонтёрские проекты работают в вашем городе.</p>
+        </li>
+        <li class="here-you-can-el">
+            <img class="icon" src="{% static 'img/calendar.svg' %}">
+            <img class="divider" src="{% static 'img/divider_white.svg' %}">
+            <p>Посмотреть актуальные мероприятия и события.</p>
+        </li>
+        <li class="here-you-can-el">
+            <img class="icon" src="{% static 'img/cursor.svg' %}">
+            <img class="divider" src="{% static 'img/divider_blue.svg' %}">
+            <p>Найти полезные ресурсы и обучающие материалы.</p>
+        </li>
+        <li class="here-you-can-el">
+            <img class="icon" src="{% static 'img/person.svg' %}">
+            <img class="divider" src="{% static 'img/divider_white.svg' %}">
+            <p>Получить контакты координаторов для участия или поддержки инициатив.</p>
+        </li>
+    </ul>
+</section>
+
+<section class="additional-info">
+    <h2 class="section-header">Станьте частью добрых дел в вашем городе!</h2>
+    <ul class="additional-info-list">
+        <li class="additional-info-el">
+            <h3>Карта</h3>
+            <hr class="divider">
+            <div class="additional-info-wrap">
+                <p>Найдите организации по городу и направлению деятельности.</p>
+                <button class="button">></button>
+            </div>
+        </li>
+        <li class="additional-info-el">
+            <h3>База знаний</h3>
+            <hr class="divider">
+            <div class="additional-info-wrap">
+                <p>Просматривайте видео и материалы для скачивания.</p>
+                <button class="button">></button>
+            </div>
+        </li>
+        <li class="additional-info-el">
+            <h3>Календарь</h3>
+            <hr class="divider">
+            <div class="additional-info-wrap">
+                <p>Отметьте интересные события, чтобы ничего не пропустить.</p>
+                <button class="button">></button>
+            </div>
+        </li>
+        <li class="additional-info-el">
+            <h3>Новости</h3>
+            <hr class="divider">
+            <div class="additional-info-wrap">
+                <p>Будьте в курсе последних инициатив и грантов.</p>
+                <button class="button">></button>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="join-us">
+    <h2 class="section-header">Присоединяйся!</h2>
+
+    <div class="join-us-card">
+        <div class="join-us-wrap">
+            <h3>Хочешь стать частью чего-то большего?<br> Регистрируйся прямо сейчас</h3>
+            <p>Здесь, ты найдешь свое дело и единомышленников</p>
+            <button class="button">Зарегистрироваться</button>
+        </div>
+        <div class="image-container"></div>
+    </div>
+</section>
+{% endblock %}

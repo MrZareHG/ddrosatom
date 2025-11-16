@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ nko.name }} - Добрые дела Росатома{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+        <div>
+            <span class="nko-category">{{ nko.get_category_display }}</span>
+            <h1>{{ nko.name }}</h1>
+            <p style="color: #666; font-size: 1.1rem; margin-top: 0.5rem;">
+                {{ nko.city }} • {{ nko.member_count }} участников • {{ nko.view_count }} просмотров
+            </p>
+        </div>
+
+        {% if user.is_authenticated %}
+            {% if user_membership %}
+                {% if user_membership.status == 'approved' %}
+                <span class="btn btn-success">Вы участник</span>
+                {% elif user_membership.status == 'pending' %}
+                <span class="btn btn-primary">Заявка на рассмотрении</span>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'organizations:nko_join' nko.pk %}" class="btn btn-success">Вступить в организацию</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+        <div>
+            <h3>О нас</h3>
+            <p style="line-height: 1.8;">{{ nko.description }}</p>
+
+            {% if nko.mission %}
+            <h3 style="margin-top: 2rem;">Наша миссия</h3>
+            <p style="line-height: 1.8;">{{ nko.mission }}</p>
+            {% endif %}
+        </div>
+
+        <div>
+            <div class="card">
+                <h3>Контакты</h3>
+                <div style="margin-top: 1rem;">
+                    {% if nko.email %}
+                    <p><strong>Email:</strong> {{ nko.email }}</p>
+                    {% endif %}
+
+                    {% if nko.phone %}
+                    <p><strong>Телефон:</strong> {{ nko.phone }}</p>
+                    {% endif %}
+
+                    {% if nko.website %}
+                    <p><strong>Сайт:</strong> <a href="{{ nko.website }}" target="_blank">{{ nko.website }}</a></p>
+                    {% endif %}
+
+                    {% if nko.address %}
+                    <p><strong>Адрес:</strong> {{ nko.address }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if nko.tags %}
+            <div class="card" style="margin-top: 1rem;">
+                <h3>Направления</h3>
+                <div style="margin-top: 0.5rem;">
+                    {% for tag in nko.tags.split %}
+                    <span style="background: #ecf0f1; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin: 0.1rem;">
+                        {{ tag }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Участники организации</h3>
+    {% if members %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+        {% for membership in members %}
+        <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div class="avatar" style="margin: 0 auto 0.5rem; width: 60px; height: 60px;">
+                {{ membership.user.first_name|first }}{{ membership.user.last_name|first }}
+            </div>
+            <div>
+                <strong>{{ membership.user.first_name }} {{ membership.user.last_name }}</strong>
+                <p style="color: #666; font-size: 0.8rem; margin: 0.25rem 0;">{{ membership.get_role_display }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; color: #666; margin: 2rem 0;">Пока нет участников</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 2rem;">
+    <a href="{% url 'organizations:nko_list' %}" class="btn btn-primary">← Назад к списку</a>
+
+    {% if user == nko.owner %}
+    <a href="{% url 'organizations:nko_edit' nko.pk %}" class="btn btn-primary">Редактировать</a>
+    {% endif %}
+</div>
+{% endblock %}
